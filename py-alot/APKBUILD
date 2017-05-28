@@ -1,0 +1,33 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=py-alot
+pkgver=0.5.1
+pkgrel=0
+pkgdesc="Terminal-based Mail User Agent"
+url="https://github.com/pazz/alot"
+arch="noarch"
+license="GPL3"
+depends="python py-twisted py2-automat py2-configobj py2-magic py2-urwid py2-urwidtrees"
+makedepends="python-dev"
+install=""
+subpackages=""
+source="${pkgname#py-}-$pkgver.tar.gz::https://github.com/pazz/alot/archive/$pkgver.tar.gz"
+options="!check"
+
+builddir="$srcdir/${pkgname#py-}-$pkgver/"
+
+check() {
+	cd "$builddir"
+	python setup.py test
+}
+
+build() {
+	cd "$builddir"
+	python setup.py build
+}
+
+package() {
+	cd "$builddir"
+	python setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="a6d0a99f9b0b582a74cc87c03722fdc44cdc8e76c30a9e106313e6d8ea28d772ce1bb020d4b942bbf674e7d5a6fb877d43b0fad891ef248fe9b56c726740b0e6  alot-0.5.1.tar.gz"

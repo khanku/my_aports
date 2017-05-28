@@ -1,0 +1,28 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=py2-constantly
+pkgver=15.1.0
+pkgrel=0
+pkgdesc="Symbolic constants in Python"
+url="https://github.com/twisted/constantly"
+arch="noarch"
+license="MIT"
+depends="python2"
+makedepends="python2-dev"
+install=""
+subpackages=""
+source="${pkgname#py2-}-$pkgver.tar.gz::https://github.com/twisted/constantly/archive/$pkgver.tar.gz"
+options="!check"
+
+builddir="$srcdir/${pkgname#py2-}-$pkgver/"
+
+build() {
+	cd "$builddir"
+	python2 setup.py build
+}
+
+package() {
+	cd "$builddir"
+	python2 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="eeaa74552fe8e01c40566ac3c8b3d41085f800863ac516e30fe1242f40d3401e4e872279149776f29d3ba78a7a16337a794ad26230efab4dd1847d42bffa81ce  constantly-15.1.0.tar.gz"

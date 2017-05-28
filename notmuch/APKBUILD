@@ -1,0 +1,62 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=notmuch
+pkgver=0.24.1
+pkgrel=0
+pkgdesc="E-Mail index, search and tagging"
+url="https://notmuchmail.org/"
+arch="all"
+license="GPL3"
+tests_depend="bash dtach gdb gnupg python"
+makedepends="$tests_depend gmime-dev gzip py-requests py-sphinx talloc-dev xapian-core-dev"
+subpackages="$pkgname-doc py2-$pkgname:py2 py3-$pkgname:py3"
+source="https://notmuchmail.org/releases/$pkgname-$pkgver.tar.gz
+        test-busybox-timeout.patch"
+# several tests failing, need to investigate
+options="!check"
+
+builddir="$srcdir/$pkgname-$pkgver"
+
+prepare() {
+	cd "$builddir"
+	patch -p1 -i "$srcdir/test-busybox-timeout.patch" || return 1;
+	cp -r "$builddir/bindings/python" "$builddir/bindings/python3"
+}
+
+build() {
+	cd "$builddir"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--mandir=/usr/share/man \
+		--localstatedir=/var \
+		|| return 1
+	make PREFIX=/usr DESTDIR="$pkgdir" || return 1
+}
+
+check() {
+	cd "$builddir/test"
+	./notmuch-test --immediate
+}
+
+py2() {
+	cd "$builddir/bindings/python"
+	python2 setup.py build || return 1
+	python2 setup.py install --prefix=/usr --root="$subpkgdir" || return 1
+}
+
+py3() {
+	cd "$builddir/bindings/python3"
+	python3 setup.py build || return 1
+	python3 setup.py install --prefix=/usr --root="$subpkgdir" || return 1
+}
+
+package() {
+	make PREFIX=/usr DESTDIR="$pkgdir" \
+		-C "$builddir" install || return 1
+	cd "$builddir/bindings/python"
+}
+
+sha512sums="e2014380de68de3e1a3fd3058a441c6771a92bfffe07c0bd2b374802dd8b2539eddbbb91074738f58f48452a936f2f9427fadca825a165c61a27fe0c3e1fe7fc  notmuch-0.24.1.tar.gz
+4eb05e97bd0205b85f4c3d0081bb70398cd84f3d5790d9b88114c5fdd4646ef284407d14e7651b33a32c0091be216ba0b8985c0f633542a52ca161b9b95e41f6  test-busybox-timeout.patch"

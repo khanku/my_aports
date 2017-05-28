@@ -1,0 +1,11 @@
+--- a/test/notmuch-test
++++ b/test/notmuch-test
+@@ -24,7 +24,7 @@
+ 
+ # Test for timeout utility
+ if command -v timeout >/dev/null; then
+-    TEST_TIMEOUT_CMD="timeout 2m"
++    TEST_TIMEOUT_CMD="timeout -t 120"
+     echo "INFO: using 2 minute timeout for tests"
+ else
+     TEST_TIMEOUT_CMD=""

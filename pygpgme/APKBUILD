@@ -1,0 +1,28 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=pygpgme
+pkgver=0.3
+pkgrel=0
+pkgdesc="A Python wrapper for the GPGME library"
+url="https://launchpad.net/pygpgme"
+arch="all"
+license="LGPL2.1"
+depends="python gpgme"
+makedepends="python-dev gpgme-dev"
+install=""
+subpackages=""
+source="https://launchpad.net/pygpgme/trunk/0.3/+download/$pkgname-$pkgver.tar.gz"
+options="!check"
+
+builddir="$srcdir/$pkgname-$pkgver/"
+
+build() {
+	cd "$builddir"
+	python setup.py build
+}
+
+package() {
+	cd "$builddir"
+	python setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="25fc199a7958adfa3bbb294108792974ba96ee7b15dff98f7933e9b089a6044d83bb7c7b77ca84ea0cab5b182f6d401cee42ecab57ab9ba34aa0b14eb6ce7736  pygpgme-0.3.tar.gz"

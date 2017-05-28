@@ -1,0 +1,32 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=py3-tox
+pkgver=2.7.0
+pkgrel=0
+pkgdesc="virtualenv-based automation of test activities"
+url="https://tox.readthedocs.io/"
+arch="noarch"
+license="MIT"
+depends="python3 py3-pluggy"
+makedepends="python3-dev"
+install=""
+subpackages=""
+source="${pkgname#py3-}-$pkgver.tar.gz::https://github.com/tox-dev/tox/archive/$pkgver.tar.gz"
+
+builddir="$srcdir/${pkgname#py3-}-$pkgver"
+
+build() {
+	cd "$builddir"
+	python3 setup.py build
+}
+
+check() {
+	cd "$builddir"
+	python3 setup.py test
+}
+
+package() {
+	cd "$builddir"
+	python3 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="ff300e2ee21f66a50365709ea71b68394b2207496e9858ff09012dfcd63527ba8404835a233d30b732a603ea774d8b86a169f874db8ca8cc66733a545cd41e19  tox-2.7.0.tar.gz"

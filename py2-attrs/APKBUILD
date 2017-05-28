@@ -1,0 +1,33 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=py2-attrs
+pkgver=17.2.0
+pkgrel=0
+pkgdesc="Attributes without boilerplate"
+url="http://www.attrs.org/"
+arch="noarch"
+license="MIT"
+depends="python2"
+makedepends="python2-dev"
+install=""
+subpackages=""
+source="https://pypi.io/packages/source/a/${pkgname#py2-}/${pkgname#py2-}-$pkgver.tar.gz"
+options="!check"
+
+builddir="$srcdir/${pkgname#py2-}-$pkgver/"
+
+build() {
+	cd "$builddir"
+	python2 setup.py build
+}
+
+check() {
+	cd "$builddir"
+	python2 setup.py test
+}
+
+package() {
+	cd "$builddir"
+	python2 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="02243e59ff417deddb330e841d42c0f43d3bea4435f114d3a9a8f4c3bd424c2ef565c630d179db7b3687d22091bf6e619de661171248c0ff0a0e5ec5f9bf7e21  attrs-17.2.0.tar.gz"

@@ -1,0 +1,28 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=py2-urwidtrees
+pkgver=1.0.2
+pkgrel=0
+pkgdesc="tree widgets for urwid"
+url="https://github.com/pazz/urwidtrees"
+arch="noarch"
+license="GPL3"
+depends="python2 py2-urwid"
+makedepends="python2-dev"
+install=""
+subpackages=""
+source="${pkgname#py2-}-$pkgver.tar.gz::https://github.com/pazz/urwidtrees/archive/$pkgver.tar.gz"
+options="!check"
+
+builddir="$srcdir/${pkgname#py2-}-$pkgver"
+
+build() {
+	cd "$builddir"
+	python2 setup.py build
+}
+
+package() {
+	cd "$builddir"
+	python2 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="535b99d91154c308260a0ee6490868724ce8dfa89acf3b623c08409ec6e15194d9e94085411dd7796cad98865ed57692a88cbc11540e6523fc371eaf0204ac17  urwidtrees-1.0.2.tar.gz"

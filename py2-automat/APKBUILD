@@ -1,0 +1,29 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=py2-automat
+_pkgname=Automat
+pkgver=0.6.0
+pkgrel=0
+pkgdesc="Self-service finite-state machines for the programmer on the go"
+url="https://github.com/glyph/Automat"
+arch="noarch"
+license="MIT"
+depends="python2 py2-attrs"
+makedepends="python2-dev"
+install=""
+subpackages=""
+source="https://pypi.io/packages/source/A/${_pkgname}/${_pkgname}-$pkgver.tar.gz"
+options="!check"
+
+builddir="$srcdir/$_pkgname-$pkgver/"
+
+build() {
+	cd "$builddir"
+	python setup.py build
+}
+
+package() {
+	cd "$builddir"
+	python setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="94f2fa06b0e0e1c0538bcf4bd9046ea40600a018bdd1da2d5bed479877807ad56e448c4f1d7ec87341f80013ae6c35b01201cbe3c4ecae1105419038ed43024d  Automat-0.6.0.tar.gz"

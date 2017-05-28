@@ -1,0 +1,35 @@
+# Maintainer: François Chavant <alpine@mail.chavant.info>
+pkgname=py3-pluggy
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="Plugin management and hook calling for Python"
+url="https://github.com/pytest-dev/pluggy"
+arch="noarch"
+license="MIT"
+depends="python3"
+tests_depend="py3-pytest"
+makedepends="$tests_depend python3-dev"
+install=""
+subpackages=""
+source="${pkgname#py3-}-$pkgver.tar.gz::https://github.com/pytest-dev/pluggy/archive/$pkgver.tar.gz"
+
+builddir="$srcdir/${pkgname#py3-}-$pkgver"
+
+build() {
+	cd "$builddir"
+	python3 setup.py build
+}
+
+check() {
+	cd "$builddir/testing"
+	python3 test_pluggy.py
+}
+
+package() {
+	cd "$builddir"
+	python3 setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+md5sums="d5e677e4ec7568b77c6badd99caee03d  pluggy-0.4.0.tar.gz"
+sha256sums="bc4b259f0b83f034641a74a2237d5fa816cec2423ca795089f57fcbcaca75f37  pluggy-0.4.0.tar.gz"
+sha512sums="dea3cdc045d295adf99ef1932ffad542bf57d5ecd91f5b48815f0a65e5f7ffd56e8e727436a20c83e5c261995092a0c561c81a5b20566f97768a24be1dd52eb1  pluggy-0.4.0.tar.gz"
